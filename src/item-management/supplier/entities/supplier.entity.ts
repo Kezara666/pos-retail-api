@@ -7,4 +7,10 @@ export class Supplier {
 
     @Column({ type: 'varchar', length: 255 })
     name: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
 }

@@ -10,7 +10,7 @@ export class QtyService {
     constructor(
         @InjectRepository(Qty)
         private readonly qtyRepository: Repository<Qty>,
-    ) {}
+    ) { }
 
     async create(createQtyDto: CreateQtyDto): Promise<Qty> {
         const qty = this.qtyRepository.create(createQtyDto);
@@ -25,12 +25,27 @@ export class QtyService {
         return await this.qtyRepository.findOneOrFail({ where: { id }, relations: ['product', 'qtyType'] });
     }
 
-    async update(id: number, updateQtyDto: UpdateQtyDto): Promise<Qty> {
-        await this.qtyRepository.update(id, updateQtyDto);
-        return await this.findOne(id);
-    }
-
     async remove(id: number): Promise<void> {
         await this.qtyRepository.delete(id);
+    }
+
+    async update(id: number, updateQtyDto: UpdateQtyDto): Promise<Qty> {
+        // Transform DTO to match entity structure for relations
+        const updateData: any = { ...updateQtyDto };
+
+        if (updateQtyDto.product !== undefined) {
+            updateData.product = updateQtyDto.product !== null
+                ? { id: updateQtyDto.product }
+                : null;
+        }
+
+        if (updateQtyDto.qtyType !== undefined) {
+            updateData.qtyType = updateQtyDto.qtyType !== null
+                ? { id: updateQtyDto.qtyType }
+                : null;
+        }
+
+        await this.qtyRepository.update(id, updateData);
+        return await this.findOne(id);
     }
 }

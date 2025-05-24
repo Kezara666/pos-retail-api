@@ -1,5 +1,6 @@
 // src/products/product.entity.ts
-import { QtyType } from 'src/item-management/qty-type/entities/qty-type.entity';
+import { QtyType } from 'src/inventory-management/qty-type/entities/qty-type.entity';
+import { ProductPrice } from 'src/item-management/product-prices/entities/product-price.entity';
 import { Supplier } from 'src/item-management/supplier/entities/supplier.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
 
@@ -14,6 +15,12 @@ export class Product {
 
   @Column({ type: 'text', nullable: true })
   description: string;
+
+  @Column({ type: 'text', nullable: true })
+  barCode: string;
+
+  @Column({ type: 'text', nullable: true })
+  qrCode: string;
 
   @Column({ type: 'varchar', length: 100 })
   category: string;
@@ -30,6 +37,9 @@ export class Product {
   @ManyToOne(() => Supplier, { nullable: false })
   supplier: Supplier;
 
+  @ManyToOne(() => ProductPrice, { nullable: true })
+  productPrice: ProductPrice;
+  
   @CreateDateColumn()
   createdAt: Date;
 

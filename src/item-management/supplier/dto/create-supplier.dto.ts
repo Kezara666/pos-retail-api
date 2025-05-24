@@ -1,7 +1,12 @@
-//import { ApiProperty } from '@nestjs/swagger'; // Optional: For Swagger documentation
+
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 
 export class CreateSupplierDto {
-    //@ApiProperty({ example: 'ABC Suppliers' })
-    name: string;
-
+  @ApiProperty({
+    description: 'Name of the supplier',
+    maxLength: 255,
+    example: 'Acme Supplies Ltd.',
+  })
+  name: string;
 }
+

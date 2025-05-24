@@ -1,7 +1,7 @@
 import { Product } from "src/item-management/products/entities/product.entity";
-import { QtyType } from "src/item-management/qty-type/entities/qty-type.entity";
+import { QtyType } from "src/inventory-management/qty-type/entities/qty-type.entity";
 import { Invoice } from "src/sale-management/invoice/entities/invoice.entity";
-import { PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from "typeorm";
+import { PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 export class ItemSell {
     @PrimaryGeneratedColumn()
@@ -30,7 +30,13 @@ export class ItemSell {
 
     @Column({ type: 'boolean', default: true })
     completedItemSell: boolean;
-    
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
 
 
 }

@@ -10,10 +10,17 @@ export class QtyTypeService {
     constructor(
         @InjectRepository(QtyType)
         private readonly qtyTypeRepository: Repository<QtyType>,
-    ) {}
+    ) { }
 
     async create(createQtyTypeDto: CreateQtyTypeDto): Promise<QtyType> {
-        const qtyType = this.qtyTypeRepository.create(createQtyTypeDto);
+        const { mainQtyId, ...rest } = createQtyTypeDto;
+        const qtyType = this.qtyTypeRepository.create(rest);
+
+        // If mainQtyId is provided, fetch the related entity and assign
+        if (mainQtyId) {
+            qtyType.mainQty = await this.qtyTypeRepository.findOne({ where: { id: mainQtyId } });
+        }
+
         return await this.qtyTypeRepository.save(qtyType);
     }
 
@@ -25,10 +32,26 @@ export class QtyTypeService {
         return await this.qtyTypeRepository.findOneOrFail({ where: { id }, relations: ['mainQty'] });
     }
 
+
     async update(id: number, updateQtyTypeDto: UpdateQtyTypeDto): Promise<QtyType> {
-        await this.qtyTypeRepository.update(id, updateQtyTypeDto);
-        return await this.findOne(id);
+        const { mainQtyId, ...rest } = updateQtyTypeDto;
+        const qtyType = await this.qtyTypeRepository.findOneOrFail({ where: { id } });
+
+        // Update simple fields
+        Object.assign(qtyType, rest);
+
+        // Update relation if mainQtyId is provided (including null to remove relation)
+        if (typeof mainQtyId !== 'undefined') {
+            if (mainQtyId === null) {
+                qtyType.mainQty = null;
+            } else {
+                qtyType.mainQty = await this.qtyTypeRepository.findOne({ where: { id: mainQtyId } });
+            }
+        }
+
+        return await this.qtyTypeRepository.save(qtyType);
     }
+
 
     async remove(id: number): Promise<void> {
         await this.qtyTypeRepository.delete(id);

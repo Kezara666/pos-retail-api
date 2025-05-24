@@ -1,5 +1,5 @@
 import { Product } from "src/item-management/products/entities/product.entity";
-import { QtyType } from "src/item-management/qty-type/entities/qty-type.entity";
+import { QtyType } from "src/inventory-management/qty-type/entities/qty-type.entity";
 import { Customer } from "src/sale-management/customer/entities/customer.entity";
 import { ItemSell } from "src/sale-management/item-sell/entities/item-sell.entity";
 import { Column, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";

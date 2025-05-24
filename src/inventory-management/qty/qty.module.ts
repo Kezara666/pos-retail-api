@@ -6,7 +6,7 @@ import { Qty } from './entities/qty.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Qty])],
-  controllers: [QtyController],
   providers: [QtyService],
+  controllers: [QtyController],
 })
 export class QtyModule {}
