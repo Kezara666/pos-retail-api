@@ -13,8 +13,13 @@ export class QtyService {
     ) { }
 
     async create(createQtyDto: CreateQtyDto): Promise<Qty> {
-        const qty = this.qtyRepository.create(createQtyDto);
-        return await this.qtyRepository.save(qty);
+        const { productId, qtyTypeId, qty } = createQtyDto;
+        const qtyEntity = this.qtyRepository.create({
+            qty,
+            product: { id: productId },       // assign relation using id
+            qtyType: { id: qtyTypeId },       // same for qtyType
+        });
+        return await this.qtyRepository.save(qtyEntity);
     }
 
     async findAll(): Promise<Qty[]> {

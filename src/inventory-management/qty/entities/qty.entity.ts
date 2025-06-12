@@ -7,11 +7,11 @@ export class Qty {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Product, { nullable: true })
+    @ManyToOne(() => Product, { nullable: false })
     @JoinColumn({ name: 'product' })
     product?: Product;
 
-    @ManyToOne(() => QtyType, { nullable: true })
+    @ManyToOne(() => QtyType, { nullable: false })
     @JoinColumn({ name: 'qtyType' })
     qtyType?: QtyType;
 
