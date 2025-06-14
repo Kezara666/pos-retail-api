@@ -37,6 +37,4 @@ export class ItemSell {
     @UpdateDateColumn()
     updatedAt: Date;
 
-
-
 }
